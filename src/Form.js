@@ -13,10 +13,8 @@ const formSchema = yup.object().shape({
 });
 
 export default function Form() {
-  // state for whether our button should be disabled or not.
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
-  // managing state for our form inputs
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -24,7 +22,6 @@ export default function Form() {
     password: "",
   });
 
-  // state for our errors
   const [errors, setErrors] = useState({
     name: "",
     email: "",
@@ -32,7 +29,6 @@ export default function Form() {
     password: "",
   });
 
-  // new state to set our post request too. So we can console.log and see it.
   const [post, setPost] = useState([]);
 
   useEffect(() => {
@@ -46,10 +42,8 @@ export default function Form() {
     axios
       .post("https://reqres.in/api/users", formState)
       .then(res => {
-        console.log(res.data)
-        setPost(res.data); // get just the form data from the REST api
+        setPost(res.data); 
 
-        // reset form if successful
         setFormState({
           name: "",
           email: "",
@@ -61,7 +55,6 @@ export default function Form() {
   };
 
   const validateChange = e => {
-    // Reach will allow us to "reach" into the schema and test only one part.
     yup
       .reach(formSchema, e.target.name)
       .validate(e.target.value)
@@ -94,7 +87,7 @@ export default function Form() {
   return (
     <form onSubmit={formSubmit}>
       <label htmlFor="name">
-        Name:
+        Name:&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
         <input
           type="text"
           name="name"
@@ -104,7 +97,7 @@ export default function Form() {
         {errors.name.length > 0 ? <p className="error">{errors.name}</p> : null}
       </label><br />
       <label htmlFor="email">
-        Email:
+        Email: &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
         <input
           type="text"
           name="email"
@@ -117,7 +110,7 @@ export default function Form() {
       </label><br />
 
       <label htmlFor="password">
-        Passwsord:
+        Password: &nbsp;
         <input
           type="text"
           name="password"
@@ -134,9 +127,12 @@ export default function Form() {
           onChange={inputChange}
         />
         Terms of Service:
-      </label>
-      {/* displaying our post request data */}
+      </label><br />
+
       <pre>{JSON.stringify(post, null, 2)}</pre>
+
+
+
       <button disabled={buttonDisabled}>Submit</button>
     </form>
   );
